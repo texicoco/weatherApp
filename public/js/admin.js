@@ -244,7 +244,10 @@ class AdminService {
         return storageService.isAdmin();
     }
 }
-
+document.addEventListener("admin:login", () => {
+    document.getElementById("admin-weather-actions")?.classList.remove("hidden");
+  });
+  
 export const adminService = new AdminService();
 window.exportSelectedCitiesToCSV = () => adminService.exportSelectedCitiesToCSV();
 document.addEventListener("DOMContentLoaded", () => {
@@ -286,4 +289,30 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+  document.getElementById("update-weather-btn")?.addEventListener("click", async () => {
+    const city = uiService.citySelect.value;
+    if (!city) return uiService.showToast("Please select a city", "warning");
+  
+    try {
+      const res = await fetch(`/api/weather/update/${city}`, { method: "POST" });
+      const data = await res.json();
+      uiService.showToast(data.message || "Weather updated", "success");
+    } catch (err) {
+      uiService.showToast("Update failed", "error");
+    }
+  });
+  
+  document.getElementById("delete-weather-btn")?.addEventListener("click", async () => {
+    const city = uiService.citySelect.value;
+    if (!city) return uiService.showToast("Please select a city", "warning");
+  
+    try {
+      const res = await fetch(`/api/weather/${city}`, { method: "DELETE" });
+      const data = await res.json();
+      uiService.showToast(data.message || "Weather deleted", "success");
+    } catch (err) {
+      uiService.showToast("Delete failed", "error");
+    }
+  });
+  
   

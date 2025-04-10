@@ -13,5 +13,11 @@ import { initApp } from './public/js/app.js';
 document.addEventListener('DOMContentLoaded', () => {
     initApp();
 });
-
+document.addEventListener("admin:login", () => {
+    const wrapper = document.getElementById("admin-city-dropdown");
+    if (wrapper) {
+      wrapper.classList.remove("hidden");
+    }
+  });
+  
 // This file serves as the main entry point for Vite 
